@@ -78,12 +78,12 @@ public class BZHttpRequest {
 		BZHttpRequest request = new BZHttpRequest(header);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("loginname", "1");
-		params.put("password", "2");
+		params.put("password", "1");
 		BZHttpResponse bzHttpResponse = request.post("https://www.ulearning.cn/ulearning_web/login!checkUserForLogin.do",params);
 		BZHeader responseHeader = bzHttpResponse.getResponseHeader();
 		params.clear();
 		params.put("name", "1");
-		params.put("passwd", "2");
+		params.put("passwd", "1");
 		params.put("yancode", "");
 		
 		header.getRequestCookie().put("UMOOC_SESSION", responseHeader.getResponseCookie().get("UMOOC_SESSION"));
@@ -94,5 +94,6 @@ public class BZHttpRequest {
 		bzHttpResponse = request.get("https://api.ulearning.cn/course/stu/3792/directory");
 		responseHeader = bzHttpResponse.getResponseHeader();
 		System.out.println(bzHttpResponse.getString());
+		//{"itemid":97777,"autoSave":0,"version":null,"complete":0,"userName":"WXC","score":66,"pageStudyRecordDTOList":[{"pageid":97778,"complete":1,"studyTime":1,"score":100,"answerTime":1,"questions":[],"videos":[{"videoid":44580,"current":155.8,"status":1,"recordTime":0,"time":155.8}],"speaks":[]},{"pageid":97780,"complete":0,"studyTime":9,"score":0,"answerTime":1,"questions":[],"videos":[],"speaks":[]}]}
 	}
 }
