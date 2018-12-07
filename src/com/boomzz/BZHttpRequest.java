@@ -71,8 +71,6 @@ public class BZHttpRequest {
 		BZHeader header = new BZHeader();
 		BZHttpRequest request = new BZHttpRequest(header);
 		HashMap<String, String> params = new HashMap<>();
-		params.put("loginname", "sz1803100118");
-		params.put("password", "wxy123456");
 		BZHttpResponse bzHttpResponse = request.post("https://www.ulearning.cn/ulearning_web/login!checkUserForLogin.do",params);
 		BZHeader responseHeader = bzHttpResponse.getResponseHeader();
 		
