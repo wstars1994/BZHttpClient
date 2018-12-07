@@ -28,7 +28,7 @@ public class BZHttpResponse {
 			int len=0;
 			byte bytes[] = new byte[1024];
 			while ((len=inputStream.read(bytes))!=-1) {
-				builder.append(new String(bytes));
+				builder.append(new String(bytes,"utf-8"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

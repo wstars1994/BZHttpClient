@@ -19,11 +19,11 @@ public class BZHeader {
 		request.put("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7");
 		request.put("Connection", "keep-alive");
 		request.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36");
-		request.put("Cookie", requestCookie.getCookies());
-		request.put("Content-Type", "application/x-www-form-urlencoded");
+		request.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 	}
 	
 	protected void setDefaultRequestProperty(HttpURLConnection conn) {
+		request.put("Cookie", requestCookie.getCookies());
 		for(Map.Entry<String, String> entry:request.entrySet()) {
 			conn.addRequestProperty(entry.getKey(),entry.getValue());
 		}
@@ -63,7 +63,7 @@ public class BZHeader {
             			String c[]=strCookie.split("=");
             			if(c.length==2){
             				//除去不需要的
-            				if(!c[0].contains("EXPIRES")&&!c[0].contains("PATH")&&!c[0].contains("DOMAIN"))
+            				if(!c[0].contains("EXPIRES")&&!c[0].contains("Path")&&!c[0].contains("Domain"))
             					responseCookie.put(c[0], c[1]);
             			}
             		}
