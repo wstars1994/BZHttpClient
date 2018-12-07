@@ -78,8 +78,6 @@ public class BZHttpRequest {
 		
 		System.out.println("1----"+bzHttpResponse.getString());
 		params.clear();
-		params.put("name", "sz1803100118");
-		params.put("password", "wxy123456");
 		bzHttpResponse = request.post("https://www.ulearning.cn/umooc/user/login.do", params);
 		responseHeader = bzHttpResponse.getResponseHeader();
 		
