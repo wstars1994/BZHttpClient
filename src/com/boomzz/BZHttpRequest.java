@@ -34,14 +34,11 @@ public class BZHttpRequest {
 		try {
 			HttpURLConnection connection = getConnection(url,"POST");
 			connection.connect();
-			
-			
 			PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
 			// 发送请求参数
 			printWriter.write(urlParamsStr(params));//post的参数 xx=xx&yy=yy
 			// flush输出流的缓冲
 			printWriter.flush();
-			System.out.println(connection.getResponseCode());
         	return new BZHttpResponse(connection);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,33 +63,7 @@ public class BZHttpRequest {
 		connection.setDoOutput(true);
 		connection.setDoInput(true);
 		connection.setRequestMethod(method);
-		
-		
 		header.setDefaultRequestProperty(connection);
-		System.out.println("pro  "+connection.getRequestProperties());
 		return connection;
-	}
-	
-	public static void main(String[] args) {
-		BZHeader header = new BZHeader();
-		BZHttpRequest request = new BZHttpRequest(header);
-		HashMap<String, String> params = new HashMap<>();
-		params.put("loginname", "1");
-		params.put("password", "2");
-		BZHttpResponse bzHttpResponse = request.post("https://www.ulearning.cn/ulearning_web/login!checkUserForLogin.do",params);
-		BZHeader responseHeader = bzHttpResponse.getResponseHeader();
-		params.clear();
-		params.put("name", "1");
-		params.put("passwd", "2");
-		params.put("yancode", "");
-		
-		header.getRequestCookie().put("UMOOC_SESSION", responseHeader.getResponseCookie().get("UMOOC_SESSION"));
-		bzHttpResponse = request.post("https://www.ulearning.cn/umooc/user/login.do", params);
-		responseHeader = bzHttpResponse.getResponseHeader();
-		
-		header.addRequestHearderProerty("UA-AUTHORIZATION", responseHeader.getResponseCookie().get("token")+"");
-		bzHttpResponse = request.get("https://api.ulearning.cn/course/stu/3792/directory");
-		responseHeader = bzHttpResponse.getResponseHeader();
-		System.out.println(bzHttpResponse.getString());
 	}
 }
