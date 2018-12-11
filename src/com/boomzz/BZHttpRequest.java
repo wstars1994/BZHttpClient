@@ -34,14 +34,11 @@ public class BZHttpRequest {
 		try {
 			HttpURLConnection connection = getConnection(url,"POST");
 			connection.connect();
-			
-			
 			PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
 			// 发送请求参数
 			printWriter.write(urlParamsStr(params));//post的参数 xx=xx&yy=yy
 			// flush输出流的缓冲
 			printWriter.flush();
-			System.out.println(connection.getResponseCode());
         	return new BZHttpResponse(connection);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,6 +49,9 @@ public class BZHttpRequest {
 	private static String urlParamsStr(HashMap<String, String> params) throws UnsupportedEncodingException{
 		String url = "";
 		for(String key:params.keySet()){
+			if(key==null) {
+				return params.get(key);
+			}
 			url+=key+"="+URLEncoder.encode(params.get(key), "utf-8")+"&";
 		}
 		if(!url.equals(""))
@@ -66,34 +66,7 @@ public class BZHttpRequest {
 		connection.setDoOutput(true);
 		connection.setDoInput(true);
 		connection.setRequestMethod(method);
-		
-		
 		header.setDefaultRequestProperty(connection);
-		System.out.println("pro  "+connection.getRequestProperties());
 		return connection;
-	}
-	
-	public static void main(String[] args) {
-		BZHeader header = new BZHeader();
-		BZHttpRequest request = new BZHttpRequest(header);
-		HashMap<String, String> params = new HashMap<>();
-		params.put("loginname", "1");
-		params.put("password", "1");
-		BZHttpResponse bzHttpResponse = request.post("https://www.ulearning.cn/ulearning_web/login!checkUserForLogin.do",params);
-		BZHeader responseHeader = bzHttpResponse.getResponseHeader();
-		params.clear();
-		params.put("name", "1");
-		params.put("passwd", "1");
-		params.put("yancode", "");
-		
-		header.getRequestCookie().put("UMOOC_SESSION", responseHeader.getResponseCookie().get("UMOOC_SESSION"));
-		bzHttpResponse = request.post("https://www.ulearning.cn/umooc/user/login.do", params);
-		responseHeader = bzHttpResponse.getResponseHeader();
-		
-		header.addRequestHearderProerty("UA-AUTHORIZATION", responseHeader.getResponseCookie().get("token")+"");
-		bzHttpResponse = request.get("https://api.ulearning.cn/course/stu/3792/directory");
-		responseHeader = bzHttpResponse.getResponseHeader();
-		System.out.println(bzHttpResponse.getString());
-		//{"itemid":97777,"autoSave":0,"version":null,"complete":0,"userName":"WXC","score":66,"pageStudyRecordDTOList":[{"pageid":97778,"complete":1,"studyTime":1,"score":100,"answerTime":1,"questions":[],"videos":[{"videoid":44580,"current":155.8,"status":1,"recordTime":0,"time":155.8}],"speaks":[]},{"pageid":97780,"complete":0,"studyTime":9,"score":0,"answerTime":1,"questions":[],"videos":[],"speaks":[]}]}
 	}
 }

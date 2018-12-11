@@ -1,5 +1,7 @@
 package com.boomzz;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -23,19 +25,21 @@ public class BZHttpResponse {
 	}
 	
 	public String getString() {
-		StringBuilder builder = new StringBuilder(); 
 		try {
-			int len=0;
-			byte bytes[] = new byte[1024];
-			while ((len=inputStream.read(bytes))!=-1) {
-				builder.append(new String(bytes,"utf-8"));
+			BufferedInputStream bis = new BufferedInputStream(inputStream);
+			ByteArrayOutputStream buf = new ByteArrayOutputStream();
+			int result = bis.read();
+			while(result != -1) {
+			    buf.write((byte) result);
+			    result = bis.read();
 			}
+			return buf.toString("utf-8");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
 			close();
 		}
-		return builder.toString();
+		return null;
 	}
 	
 	public BZHeader getResponseHeader() {
